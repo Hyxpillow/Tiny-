@@ -49,16 +49,21 @@ static void match(TokenType expected)
 TreeNode * program(void)
 {
   TreeNode *t = declaration_list();
+  TreeNode *last = t;
+  while (last != NULL && last->sibling != NULL) {
+    last = last->sibling;
+  }
+  
   //match(SEMI);
   TreeNode *p = stmt_sequence();
-  t->sibling = p;
+  last->sibling = p;
   return t;
 }
 //------------------------------------------新增的declaration_list函数
 TreeNode * declaration_list(){
   TreeNode *t = declaration();
   TreeNode *p = t;
-  while ((token==INT) || (token==CHAR))
+  while (token==INT || token==CHAR)
   { TreeNode * q = NULL;
      q = declaration();
      if (q!=NULL) {

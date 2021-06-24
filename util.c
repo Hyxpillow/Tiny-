@@ -148,7 +148,7 @@ void printTree( TreeNode * tree )
   while (tree != NULL) {
     printSpaces();
     if (tree->nodekind==Definek){
-      switch (tree->kind.stmt)
+      switch (tree->kind.define)
       {
       case IntD:
         fprintf(listing, "Int: %s\n", tree->attr.name);
