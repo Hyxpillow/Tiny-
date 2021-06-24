@@ -163,7 +163,7 @@ static void checkNode(TreeNode * t)
       }
       break;
     default:
-      break;
+      break;  
 
   }
 }
