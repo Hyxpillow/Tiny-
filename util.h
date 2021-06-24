@@ -18,12 +18,12 @@ void printToken( TokenType, const char* );
  */
 TreeNode * newStmtNode(StmtKind);
 
-TreeNode *newDefineNode(DefineKind);
-
 /* Function newExpNode creates a new expression 
  * node for syntax tree construction
  */
 TreeNode * newExpNode(ExpKind);
+
+TreeNode *newDeclarationNode(DefineKind);
 
 /* Function copyString allocates and makes a new
  * copy of an existing string

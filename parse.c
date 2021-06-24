@@ -14,6 +14,7 @@ static TokenType token; /* holds current token */
 
 /* function prototypes for recursive calls */
 static TreeNode * program(void);
+static TreeNode * declaration_list(void);
 static TreeNode * declaration(void);
 static TreeNode * type_specifier(void);
 
@@ -47,27 +48,63 @@ static void match(TokenType expected)
 //------------------------------------------新增的program函数
 TreeNode * program(void)
 {
+  TreeNode *t = declaration_list();
+  //match(SEMI);
+  TreeNode *p = stmt_sequence();
+  t->sibling = p;
+  return t;
+}
+//------------------------------------------新增的declaration_list函数
+TreeNode * declaration_list(){
   TreeNode *t = declaration();
   TreeNode *p = t;
-  while ((token!=ENDFILE) && (token!=END) &&
-         (token!=ELSE) && (token!=UNTIL))
-  { TreeNode * q;
-    q = statement();
-    if (q!=NULL) {
-      if (t==NULL) t = p = q;
+  while ((token==INT) || (token==CHAR))
+  { TreeNode * q = NULL;
+     q = declaration();
+     if (q!=NULL) {
+       if (t==NULL) t = p = q;
       else /* now p cannot be NULL either */
-      { p->sibling = q;
+       { p->sibling = q;
         p = q;
       }
     }
   }
   return t;
 }
+
 //------------------------------------------新增的declaration函数
 TreeNode * declaration(){
   TreeNode *t = type_specifier();
+  match(ID);
+  match(SEMI);
+  return t;
 }
 
+//------------------------------------------新增的type_specifier函数
+TreeNode * type_specifier(void)
+{
+	TreeNode * t = NULL;
+	switch (token)
+	{
+	case INT:
+		t = newDeclarationNode(IntD);
+		t->attr.name = "int";
+		t->type = Integer;
+		match(INT);
+		break;
+
+	case CHAR:
+		t = newDeclarationNode(CharD);
+		t->attr.name = "char";
+		t->type = Char;
+		match(CHAR);
+		break;
+
+	default:
+		break;
+	}
+	return t;
+}
 
 TreeNode * stmt_sequence(void)
 { TreeNode * t = statement();
@@ -86,43 +123,6 @@ TreeNode * stmt_sequence(void)
     }
   }
   return t;
-}
-
-//------------------------------------------新增的type_specifier函数
-TreeNode * type_specifier(void)
-{
-	TreeNode * t = NULL;
-	switch (token)
-	{
-	case INT:
-		t = newDefineNode(IntD);
-		t->attr.name = "int";
-		t->type = Integer;
-		match(INT);
-
-		/*match(INT);
-		if ((t != NULL) && (token == ID))
-			t->attr.name = copyString(tokenString);
-		match(ID);*/
-
-		break;
-	// case BOOL:
-	// 	t = newDefineNode(BoolD);
-	// 	t->attr.name = "bool";
-	// 	t->type = Boolean;
-	// 	match(BOOL);
-
-	// 	break;
-	case CHAR:
-		t = newDefineNode(CharD);
-		t->attr.name = "char";
-		t->type = Char;
-		match(CHAR);
-		break;
-	default:
-		break;
-	}
-	return t;
 }
 
 TreeNode * statement(void)

@@ -73,7 +73,7 @@ TreeNode * newStmtNode(StmtKind kind)
   return t;
 }
 
-TreeNode * newDefineNode(DefineKind kind)
+TreeNode * newDeclarationNode(DefineKind kind)
 {
 	TreeNode * t = (TreeNode *)malloc(sizeof(TreeNode));
 	int i;
@@ -116,7 +116,7 @@ char * copyString(char * s)
   char * t;
   if (s==NULL) return NULL;
   n = strlen(s)+1;
-  t = malloc(n);
+  t = (char *)malloc(n);
   if (t==NULL)
     fprintf(listing,"Out of memory error at line %d\n",lineno);
   else strcpy(t,s);
@@ -147,7 +147,20 @@ void printTree( TreeNode * tree )
   INDENT;
   while (tree != NULL) {
     printSpaces();
-    if (tree->nodekind==StmtK)
+    if (tree->nodekind==Definek){
+      switch (tree->kind.stmt)
+      {
+      case IntD:
+        fprintf(listing, "Int: %s\n", tree->attr.name);
+        break;
+      case CharD:
+				fprintf(listing, "Char: %s\n", tree->attr.name);
+				break;
+      default:
+        break;
+      }
+    }
+    else if (tree->nodekind==StmtK)
     { switch (tree->kind.stmt) {
         case IfK:
           fprintf(listing,"If\n");
