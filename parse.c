@@ -9,7 +9,7 @@
 #include "util.h"
 #include "scan.h"
 #include "parse.h"
-
+#include "symtab.h"
 static TokenType token; /* holds current token */
 
 /* function prototypes for recursive calls */
@@ -113,6 +113,8 @@ TreeNode * type_specifier(void)
 
 	default:
     syntaxError("unexpected token -> ");
+    printToken(token,tokenString);
+    token = getToken();
 		break;
 	}
 	return t;
@@ -178,8 +180,10 @@ TreeNode * repeat_stmt(void)
 
 TreeNode * assign_stmt(void)
 { TreeNode * t = newStmtNode(AssignK);
-  if ((t!=NULL) && (token==ID))
-    t->attr.name = copyString(tokenString);
+  if ((t!=NULL) && (token==ID)) {
+      t->attr.name = copyString(tokenString);
+      //t->type = st_lookup_type(t->attr.name);
+  }
   match(ID);
   match(ASSIGN);
   if (t!=NULL) t->child[0] = exp();
@@ -259,8 +263,11 @@ TreeNode * factor(void)
       break;
     case ID :
       t = newExpNode(IdK);
-      if ((t!=NULL) && (token==ID))
+      if ((t!=NULL) && (token==ID)) {
         t->attr.name = copyString(tokenString);
+        //t->type = st_lookup_type(t->attr.name);
+      }
+        
       match(ID);
       break;
     case LPAREN :

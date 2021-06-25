@@ -14,7 +14,7 @@
  * loc = memory location is inserted only the
  * first time, otherwise ignored
  */
-void st_insert( char * name, int lineno, int loc );
+void st_insert( char * name, int lineno, int loc, int type );
 
 /* Function st_lookup returns the memory 
  * location of a variable or -1 if not found
@@ -26,5 +26,13 @@ int st_lookup ( char * name );
  * to the listing file
  */
 void printSymTab(FILE * listing);
+
+
+/* 查找变量的类型是否存在函数
+ * 
+ * 
+ */ 
+int st_lookup_type(char * name);
+
 
 #endif

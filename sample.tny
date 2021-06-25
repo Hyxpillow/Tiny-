@@ -7,9 +7,9 @@ char A;
 char B;
 
 int y;
-
+int fact;
+int x0;
 read x0; { input an integer }
-intx0;
 if 0 < x0 then { don't compute if x0 <= 0 }
   fact := 1;
   repeat

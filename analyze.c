@@ -8,7 +8,7 @@
 
 
 #include "analyze.h"
-
+#include "globals.h"
 /* counter for variable memory locations */
 static int location = 0;
 
@@ -61,7 +61,7 @@ static void insertNode( TreeNode * t)
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
-            st_insert(t->attr.name,t->lineno,0);
+            st_insert(t->attr.name,t->lineno,0,t->type);
           break;
         default:
           break;
@@ -75,7 +75,7 @@ static void insertNode( TreeNode * t)
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
-            st_insert(t->attr.name,t->lineno,0);
+            st_insert(t->attr.name,t->lineno,0,t->type);
           break;
         default:
           break;
@@ -87,7 +87,7 @@ static void insertNode( TreeNode * t)
         case CharD:
           if (st_lookup(t->attr.name) == -1)
           /* not yet in table, so treat as new definition */
-            st_insert(t->attr.name,t->lineno,location++);
+            st_insert(t->attr.name,t->lineno,location++,t->type);
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
@@ -123,43 +123,109 @@ static void typeError(TreeNode * t, char * message)
 /* Procedure checkNode performs
  * type checking at a single tree node
  */
+//------------------------------------------backup---------------
+// static void checkNode(TreeNode * t)
+// { switch (t->nodekind)
+//   { case ExpK:
+//       switch (t->kind.exp)
+//       { case OpK:
+//           if ((t->child[0]->type != Integer) ||
+//               (t->child[1]->type != Integer))
+//             typeError(t,"Op applied to non-integer");
+//           if ((t->attr.op == EQ) || (t->attr.op == LT))
+//             t->type = Boolean;
+//           else
+//             t->type = Integer;
+//           break;
+//         case ConstK:
+//         case IdK:
+//           t->type = Integer;
+//           break;
+//         default:
+//           break;
+//       }
+//       break;
+//     case StmtK:
+//       switch (t->kind.stmt)
+//       { case IfK:
+//           if (t->child[0]->type == Integer)
+//             typeError(t->child[0],"if test is not Boolean");
+//           break;
+//         case AssignK:
+//           if (t->child[0]->type != Integer)
+//             typeError(t->child[0],"assignment of non-integer value");
+//           break;
+//         case WriteK:
+//           if (t->child[0]->type != Integer)
+//             typeError(t->child[0],"write of non-integer value");
+//           break;
+//         case RepeatK:
+//           if (t->child[1]->type == Integer)
+//             typeError(t->child[1],"repeat test is not Boolean");
+//           break;
+//         default:
+//           break;
+//       }
+//       break;
+//     default:
+//       break;  
+
+//   }
+// }
 static void checkNode(TreeNode * t)
-{ switch (t->nodekind)
+{ int temp_type;
+  switch (t->nodekind)
   { case ExpK:
       switch (t->kind.exp)
       { case OpK:
           if ((t->child[0]->type != Integer) ||
-              (t->child[1]->type != Integer))
-            typeError(t,"Op applied to non-integer");
+              (t->child[1]->type != Integer)) {
+                //printf("1: %d 2 : %d\n", t->child[0]->type, t->child[1]->type);
+                typeError(t,"Op applied to non-integer");
+              }
+            
           if ((t->attr.op == EQ) || (t->attr.op == LT))
             t->type = Boolean;
           else
             t->type = Integer;
           break;
         case ConstK:
-        case IdK:
           t->type = Integer;
           break;
+        case IdK:
+          temp_type = st_lookup_type(t->attr.name);
+          if (temp_type == (int)Integer){
+            t->type = Integer;
+          } else if (temp_type == (int)Char) {
+            t->type = Char;
+          } else {
+            typeError(t, "ID type Error");
+          }
+          break;
         default:
+          typeError(t,"EXP kind ERROR");
           break;
       }
       break;
     case StmtK:
       switch (t->kind.stmt)
       { case IfK:
-          if (t->child[0]->type == Integer)
+          if (t->child[0]->type !=Boolean)
             typeError(t->child[0],"if test is not Boolean");
           break;
         case AssignK:
-          if (t->child[0]->type != Integer)
-            typeError(t->child[0],"assignment of non-integer value");
+
+          if (t->child[0]->type != st_lookup_type(t->attr.name)) {
+             //printf("1: %d", t->type);
+             typeError(t->child[0],"assignment of non_same type");
+          }
           break;
         case WriteK:
           if (t->child[0]->type != Integer)
             typeError(t->child[0],"write of non-integer value");
           break;
         case RepeatK:
-          if (t->child[1]->type == Integer)
+          if (t->child[1]->type !=Boolean)
             typeError(t->child[1],"repeat test is not Boolean");
           break;
         default:

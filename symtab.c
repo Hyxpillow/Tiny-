@@ -20,6 +20,11 @@
    in hash function  */
 #define SHIFT 4
 
+
+
+
+
+
 /* the hash function */
 static int hash ( char * key )
 { int temp = 0;
@@ -46,13 +51,14 @@ typedef struct LineListRec
  * it appears in the source code
  */
 
-//-------------------------更改-----------------------
+//-------------------------增加type变量-----------------------
 typedef struct BucketListRec
    { 
      char * name;
      LineList lines;
      int memloc ; /* memory location for variable */
      struct BucketListRec * next;
+     int type;
    } * BucketList;
 
 /* the hash table */
@@ -63,7 +69,7 @@ static BucketList hashTable[SIZE];
  * loc = memory location is inserted only the
  * first time, otherwise ignored
  */
-void st_insert( char * name, int lineno, int loc)
+void st_insert( char * name, int lineno, int loc, int type)
 { int h = hash(name);
   BucketList l =  hashTable[h];
   while ((l != NULL) && (strcmp(name,l->name) != 0))
@@ -76,6 +82,7 @@ void st_insert( char * name, int lineno, int loc)
     l->memloc = loc;
     l->lines->next = NULL;
     l->next = hashTable[h];
+    l->type = type;
     hashTable[h] = l; }
   else /* found in table, so just add line number */
   { LineList t = l->lines;
@@ -125,3 +132,17 @@ void printSymTab(FILE * listing)
     }
   }
 } /* printSymTab */
+
+
+//--------------------增加查找类型函数-----------------
+int st_lookup_type(char * name)
+{
+	int h = hash(name);
+	BucketList l = hashTable[h];
+	while ((l != NULL) && (strcmp(name, l->name) != 0))
+		l = l->next;
+	if (l == NULL) return -1;
+	else
+		return l->type;
+		//return l->memloc;
+}
