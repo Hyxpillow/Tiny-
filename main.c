@@ -37,10 +37,17 @@ FILE * listing;
 FILE * code;
 
 /* allocate and set tracing flags */
+<<<<<<< Updated upstream
 int EchoSource = FALSE;//是否打印源代码
 int TraceScan = FALSE;//是否逐句打印词法分析
 int TraceParse = FALSE;//是否打印语法树
 int TraceAnalyze = TRUE;//是否打印符号表
+=======
+int EchoSource = TRUE;
+int TraceScan = TRUE;
+int TraceParse = TRUE;
+int TraceAnalyze = TRUE;
+>>>>>>> Stashed changes
 int TraceCode = FALSE;
 
 int Error = FALSE;
