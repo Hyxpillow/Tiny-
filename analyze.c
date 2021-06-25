@@ -115,6 +115,7 @@ static void typeError(TreeNode * t, char * message)
   Error = TRUE;
 }
 
+
 /* Procedure checkNode performs
  * type checking at a single tree node
  */

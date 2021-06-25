@@ -45,8 +45,11 @@ typedef struct LineListRec
  * the list of line numbers in which
  * it appears in the source code
  */
+
+//-------------------------更改-----------------------
 typedef struct BucketListRec
-   { char * name;
+   { 
+     char * name;
      LineList lines;
      int memloc ; /* memory location for variable */
      struct BucketListRec * next;
