@@ -112,6 +112,7 @@ TreeNode * type_specifier(void)
 		break;
 
 	default:
+    syntaxError("unexpected token -> ");
 		break;
 	}
 	return t;
