@@ -80,13 +80,7 @@ TreeNode * declaration_list(){
 //------------------------------------------新增的declaration函数
 TreeNode * declaration(){
   TreeNode *t = type_specifier();
-  if (token == ID){
-    TreeNode *p = newExpNode(IdK);
-    p->attr.name = copyString(tokenString);
-    p->type = t->type;
-    t->child[0] = p;
-    match(ID);
-  }
+  match(ID);
   match(SEMI);
   return t;
 }
