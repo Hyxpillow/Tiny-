@@ -80,7 +80,13 @@ TreeNode * declaration_list(){
 //------------------------------------------新增的declaration函数
 TreeNode * declaration(){
   TreeNode *t = type_specifier();
-  match(ID);
+  if (token == ID){
+    TreeNode *p = newExpNode(IdK);
+    p->attr.name = copyString(tokenString);
+    p->type = t->type;
+    t->child[0] = p;
+    match(ID);
+  }
   match(SEMI);
   return t;
 }
@@ -93,16 +99,16 @@ TreeNode * type_specifier(void)
 	{
 	case INT:
 		t = newDeclarationNode(IntD);
-		t->attr.name = "int";
+    match(INT);
+		t->attr.name = copyString(tokenString);
 		t->type = Integer;
-		match(INT);
 		break;
 
 	case CHAR:
 		t = newDeclarationNode(CharD);
-		t->attr.name = "char";
+    match(CHAR);
+		t->attr.name = copyString(tokenString);
 		t->type = Char;
-		match(CHAR);
 		break;
 
 	default:

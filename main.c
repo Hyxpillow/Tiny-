@@ -10,7 +10,7 @@
 /* set NO_PARSE to TRUE to get a scanner-only compiler */
 #define NO_PARSE FALSE
 /* set NO_ANALYZE to TRUE to get a parser-only compiler */
-#define NO_ANALYZE TRUE
+#define NO_ANALYZE FALSE
 
 /* set NO_CODE to TRUE to get a compiler that does not
  * generate code
@@ -37,10 +37,10 @@ FILE * listing;
 FILE * code;
 
 /* allocate and set tracing flags */
-int EchoSource = TRUE;
-int TraceScan = TRUE;
-int TraceParse = TRUE;
-int TraceAnalyze = FALSE;
+int EchoSource = FALSE;//是否打印源代码
+int TraceScan = FALSE;//是否逐句打印词法分析
+int TraceParse = FALSE;//是否打印语法树
+int TraceAnalyze = TRUE;//是否打印符号表
 int TraceCode = FALSE;
 
 int Error = FALSE;
