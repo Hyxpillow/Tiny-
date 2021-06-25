@@ -77,24 +77,6 @@ static void insertNode( TreeNode * t)
           break;
       }
       break;
-    case Definek:
-      switch (t->kind.define)
-      { case IntD:
-        case CharD:
-          if (st_lookup(t->attr.name) == -1)
-          /* not yet in table, so treat as new definition */
-            st_insert(t->attr.name,t->lineno,location++);
-          else
-          /* already in table, so ignore location, 
-              add line number of use only */ 
-            st_insert(t->attr.name,t->lineno,0);
-          break;
-        
-        default:
-          break;
-      }
-      break;
-          
     default:
       break;
   }
@@ -163,7 +145,7 @@ static void checkNode(TreeNode * t)
       }
       break;
     default:
-      break;
+      break;  
 
   }
 }
