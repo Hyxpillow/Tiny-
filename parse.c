@@ -93,16 +93,22 @@ TreeNode * type_specifier(void)
 	{
 	case INT:
 		t = newDeclarationNode(IntD);
-		t->attr.name = "int";
-		t->type = Integer;
-		match(INT);
+    match(INT);
+    if ((t != NULL) && (token == ID)) {
+      t->attr.name = copyString(tokenString);
+      t->type = Integer;
+    }
+		
 		break;
 
 	case CHAR:
 		t = newDeclarationNode(CharD);
-		t->attr.name = "char";
-		t->type = Char;
-		match(CHAR);
+    match(CHAR);
+    if ((t != NULL) && (token == ID)) {
+        t->attr.name = copyString(tokenString);
+		    t->type = Char;
+    }
+		
 		break;
 
 	default:

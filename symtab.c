@@ -99,10 +99,12 @@ int st_lookup ( char * name )
  * listing of the symbol table contents 
  * to the listing file
  */
+
+//-----------------------------更改--------------------
 void printSymTab(FILE * listing)
 { int i;
-  fprintf(listing,"Variable Name  Location   Line Numbers\n");
-  fprintf(listing,"-------------  --------   ------------\n");
+  fprintf(listing,"Type Variable Name  Location   Line Numbers\n");
+  fprintf(listing,"---- -------------  --------   ------------\n");
   for (i=0;i<SIZE;++i)
   { if (hashTable[i] != NULL)
     { BucketList l = hashTable[i];
