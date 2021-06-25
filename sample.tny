@@ -5,7 +5,7 @@
 int x0;
 char A;
 char B;
-int y;
+int x0;
 read x0; { input an integer }
 if 0 < x0 then { don't compute if x0 <= 0 }
   fact := 1;
