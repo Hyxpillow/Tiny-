@@ -39,6 +39,11 @@ static void nullProc(TreeNode * t)
 { if (t==NULL) return;
   else return;
 }
+//------------------------------------------------------------------新增的声明报错语句
+static void DeclarationError(TreeNode * t, char * message)
+{ fprintf(listing,"Declaration error at line %d: %s\n",t->lineno,message);
+  Error = TRUE;
+}
 
 /* Procedure insertNode inserts 
  * identifiers stored in t into 
@@ -52,7 +57,7 @@ static void insertNode( TreeNode * t)
         case ReadK:
           if (st_lookup(t->attr.name) == -1)
           /* not yet in table, so treat as new definition */
-            st_insert(t->attr.name,t->lineno,location++);
+            DeclarationError(t, "undeclared identifier");
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
@@ -66,8 +71,7 @@ static void insertNode( TreeNode * t)
       switch (t->kind.exp)
       { case IdK:
           if (st_lookup(t->attr.name) == -1)
-          /* not yet in table, so treat as new definition */
-            st_insert(t->attr.name,t->lineno,location++);
+            DeclarationError(t, "undeclared identifier");
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
@@ -87,7 +91,7 @@ static void insertNode( TreeNode * t)
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
-            st_insert(t->attr.name,t->lineno,0);
+            DeclarationError(t, "previous declaration");
           break;
         
         default:

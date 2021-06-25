@@ -60,7 +60,7 @@ static BucketList hashTable[SIZE];
  * loc = memory location is inserted only the
  * first time, otherwise ignored
  */
-void st_insert( char * name, int lineno, int loc )
+void st_insert( char * name, int lineno, int loc)
 { int h = hash(name);
   BucketList l =  hashTable[h];
   while ((l != NULL) && (strcmp(name,l->name) != 0))
@@ -103,8 +103,8 @@ int st_lookup ( char * name )
 //-----------------------------更改--------------------
 void printSymTab(FILE * listing)
 { int i;
-  fprintf(listing,"Type Variable Name  Location   Line Numbers\n");
-  fprintf(listing,"---- -------------  --------   ------------\n");
+  fprintf(listing,"Variable Name  Location   Line Numbers\n");
+  fprintf(listing,"-------------  --------   ------------\n");
   for (i=0;i<SIZE;++i)
   { if (hashTable[i] != NULL)
     { BucketList l = hashTable[i];
