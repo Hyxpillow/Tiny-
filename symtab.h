@@ -35,4 +35,9 @@ void printSymTab(FILE * listing);
 int st_lookup_type(char * name);
 
 
+/*转换字符串 
+ *
+ */
+char * ChangeType(int num);
+
 #endif

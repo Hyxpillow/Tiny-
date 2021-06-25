@@ -110,16 +110,25 @@ int st_lookup ( char * name )
  * to the listing file
  */
 
+char * ChangeType(int num) {
+  switch(num) {
+    case 1: return "INT";
+    case 3: return "CHAR";
+    default: return NULL;
+  }
+
+}
 //-----------------------------更改--------------------
 void printSymTab(FILE * listing)
 { int i;
-  fprintf(listing,"Variable Name  Location   Line Numbers\n");
-  fprintf(listing,"-------------  --------   ------------\n");
+  fprintf(listing,"Type Variable Name  Location   Line Numbers\n");
+  fprintf(listing,"---- -------------  --------   ------------\n");
   for (i=0;i<SIZE;++i)
   { if (hashTable[i] != NULL)
     { BucketList l = hashTable[i];
       while (l != NULL)
       { LineList t = l->lines;
+        fprintf(listing,"%-4s ",ChangeType(l->type));
         fprintf(listing,"%-14s ",l->name);
         fprintf(listing,"%-8d  ",l->memloc);
         while (t != NULL)
