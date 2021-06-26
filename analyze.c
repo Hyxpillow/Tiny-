@@ -57,7 +57,7 @@ static void insertNode( TreeNode * t)
         case ReadK:
           if (st_lookup(t->attr.name) == -1)
           /* not yet in table, so treat as new definition */
-            DeclarationError(t, "undeclared identifier");
+            DeclarationError(t, strcat(t->attr.name, " undeclared identifier"));
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
@@ -71,7 +71,7 @@ static void insertNode( TreeNode * t)
       switch (t->kind.exp)
       { case IdK:
           if (st_lookup(t->attr.name) == -1)
-            DeclarationError(t, "undeclared identifier");
+            DeclarationError(t, strcat(t->attr.name, " undeclared identifier"));
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
@@ -91,7 +91,7 @@ static void insertNode( TreeNode * t)
           else
           /* already in table, so ignore location, 
              add line number of use only */ 
-            DeclarationError(t, "previous declaration");
+            DeclarationError(t, strcat(t->attr.name, " previous declaration"));
           break;
         
         default:
