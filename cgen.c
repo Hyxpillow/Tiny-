@@ -27,7 +27,6 @@ static void genStmt( TreeNode * tree)
   int savedLoc1,savedLoc2,currentLoc;
   int loc;
   switch (tree->kind.stmt) {
-
       case IfK :
          if (TraceCode) emitComment("-> if") ;
          p1 = tree->child[0] ;
@@ -146,6 +145,13 @@ static void genExp( TreeNode * tree)
                emitRM("LDA",pc,1,pc,"unconditional jmp") ;
                emitRM("LDC",ac,1,ac,"true case") ;
                break;
+            case RT :
+               emitRO("SUB",ac,ac1,ac,"op >") ;
+               emitRM("JGT",ac,2,pc,"br if true") ;
+               emitRM("LDC",ac,0,ac,"false case") ;
+               emitRM("LDA",pc,1,pc,"unconditional jmp") ;
+               emitRM("LDC",ac,1,ac,"true case") ;
+               break;
             case EQ :
                emitRO("SUB",ac,ac1,ac,"op ==") ;
                emitRM("JEQ",ac,2,pc,"br if true");
@@ -194,7 +200,7 @@ static void cGen( TreeNode * tree)
  * file name as a comment in the code file
  */
 void codeGen(TreeNode * syntaxTree, char * codefile)
-{  char * s = malloc(strlen(codefile)+7);
+{  char * s = (char *)malloc(strlen(codefile)+7);
    strcpy(s,"File: ");
    strcat(s,codefile);
    emitComment("TINY Compilation to TM Code");

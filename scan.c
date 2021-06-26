@@ -115,6 +115,9 @@ TokenType getToken(void)
              case '<':
                currentToken = LT;
                break;
+             case '>':
+               currentToken = RT;
+               break;
              case '+':
                currentToken = PLUS;
                break;
