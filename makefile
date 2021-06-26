@@ -39,7 +39,6 @@ cgen.o: cgen.c globals.h symtab.h code.h cgen.h
 
 clean:
 	-rm tiny.exe
-	-rm tm.exe
 	-rm main.o
 	-rm util.o
 	-rm scan.o
