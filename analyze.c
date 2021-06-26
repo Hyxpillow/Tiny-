@@ -210,7 +210,7 @@ static void checkNode(TreeNode * t)
     case StmtK:
       switch (t->kind.stmt)
       { case IfK:
-          if (t->child[0]->type !=Boolean)
+          if (t->child[0]->type !=Boolean || t->child[0]->type != Integer)
             typeError(t->child[0],"if test is not Boolean");
           break;
         case AssignK:
