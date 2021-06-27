@@ -198,7 +198,6 @@ TokenType getToken(void)
            ungetNextChar();
            currentToken = LT;
            save = FALSE;
-           currentToken = ERROR;
          }
          break;
        case INEXP_RT:
@@ -210,7 +209,6 @@ TokenType getToken(void)
            ungetNextChar();
            currentToken = RT;
            save = FALSE;
-           currentToken = ERROR;
         }
         break;
        case ININEQU:

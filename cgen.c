@@ -94,7 +94,7 @@ static void genStmt( TreeNode * tree)
 } /* genStmt */
 
 /* Procedure genExp generates code at an expression node */
-static void genExp( TreeNode * tree)
+static void  genExp( TreeNode * tree)
 { int loc;
   TreeNode * p1, * p2;
   switch (tree->kind.exp) {
