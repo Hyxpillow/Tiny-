@@ -166,6 +166,12 @@ static void genExp( TreeNode * tree)
                emitRM("LDA",pc,1,pc,"unconditional jmp") ;
                emitRM("LDC",ac,1,ac,"true case") ;
                break;
+            case INEQU:
+               emitRO("SUB",ac,ac1,ac,"op !=") ;
+               emitRM("JNE",ac,2,pc,"br if true");
+               emitRM("LDC",ac,0,ac,"false case") ;
+               emitRM("LDA",pc,1,pc,"unconditional jmp") ;
+               emitRM("LDC",ac,1,ac,"true case") ;
             case EQ :
                emitRO("SUB",ac,ac1,ac,"op ==") ;
                emitRM("JEQ",ac,2,pc,"br if true");
