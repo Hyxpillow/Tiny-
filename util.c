@@ -34,6 +34,8 @@ void printToken( TokenType token, const char* tokenString )
     case RTE: fprintf(listing,">=\n"); break;
     case INEQU: fprintf(listing,"!=\n"); break;
     case EQ: fprintf(listing,"=\n"); break;
+    case AND: fprintf(listing,"&\n"); break;
+    case OR: fprintf(listing,"|\n"); break;
     case LPAREN: fprintf(listing,"(\n"); break;
     case RPAREN: fprintf(listing,")\n"); break;
     case SEMI: fprintf(listing,";\n"); break;

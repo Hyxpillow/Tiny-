@@ -178,13 +178,13 @@ static void checkNode(TreeNode * t)
   { case ExpK:
       switch (t->kind.exp)
       { case OpK:
-          if ((t->child[0]->type != Integer) ||
-              (t->child[1]->type != Integer)) {
-                //printf("1: %d 2 : %d\n", t->child[0]->type, t->child[1]->type);
-                typeError(t,"Op applied to non-integer");
-              }
+          // if ((t->child[0]->type != Integer) ||
+          //     (t->child[1]->type != Integer)) {
+          //       //printf("1: %d 2 : %d\n", t->child[0]->type, t->child[1]->type);
+          //       typeError(t,"Op applied to non-integer");
+          //     }
             
-          if ((t->attr.op == EQ) || (t->attr.op == LT) || (t->attr.op == RT) || (t->attr.op == LTE) || (t->attr.op == RTE))
+          if ((t->attr.op == EQ) || (t->attr.op == LT) || (t->attr.op == RT) || (t->attr.op == LTE) || (t->attr.op == RTE) || (t->attr.op == AND) || (t->attr.op == OR))
             t->type = Boolean;
           else
             t->type = Integer;

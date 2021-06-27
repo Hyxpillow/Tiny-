@@ -123,7 +123,12 @@ TokenType getToken(void)
              case '=':
                currentToken = EQ;
                break;
-             
+             case '&':
+               currentToken = AND;
+               break;
+             case '|':
+               currentToken = OR;
+               break;
              case '+':
                currentToken = PLUS;
                break;

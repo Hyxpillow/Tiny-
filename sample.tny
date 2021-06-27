@@ -1,11 +1,11 @@
-int fact;
-int x0;
-read x0; { input an integer }
-if x0 > 0 then { don't compute if x0 <= 0 }
-  fact := 1;
-  repeat
-    fact := fact * x0;
-    x0 := x0 - 1
-  until x0 = 0;
-  write fact  { output factorial of x }
-end 
+int x;
+int y;
+int z;
+
+x := 4;
+y := 5;
+z := 6;
+
+if 0 | 0 then
+    write z
+end

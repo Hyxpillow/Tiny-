@@ -138,6 +138,20 @@ static void  genExp( TreeNode * tree)
             case OVER :
                emitRO("DIV",ac,ac1,ac,"op /");
                break;
+            case AND:
+               emitRM("JEQ",ac,1,pc,"left  false") ;
+               emitRM("JNE",ac1,2,pc,"right false") ;
+               emitRM("LDC",ac,0,ac,"false case") ;
+               emitRM("LDA",pc,1,pc,"unconditional jmp") ;
+               emitRM("LDC",ac,1,ac,"true case") ;
+               break;
+            case OR:
+               emitRM("JNE",ac,3,pc,"left  false") ;
+               emitRM("JNE",ac1,2,pc,"right false") ;
+               emitRM("LDC",ac,0,ac,"false case");
+               emitRM("LDA",pc,1,pc,"unconditional jmp") ;
+               emitRM("LDC",ac,1,ac,"true case") ;
+               break;
             case LT :
                emitRO("SUB",ac,ac1,ac,"op <") ;
                emitRM("JLT",ac,2,pc,"br if true") ;
