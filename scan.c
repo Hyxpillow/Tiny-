@@ -191,12 +191,24 @@ TokenType getToken(void)
            currentToken = LTE;
            state = DONE;
          }
+         else {
+           ungetNextChar();
+           currentToken = LT;
+           save = FALSE;
+           state = DONE;
+         }
          break;
        case INEXP_RT:
         if (c == '='){
            currentToken = RTE;
            state = DONE;
-         }
+        }
+        else {
+           ungetNextChar();
+           currentToken = RT;
+           save = FALSE;
+           state = DONE;
+        }
         break;
        case DONE:
        default: /* should never happen */

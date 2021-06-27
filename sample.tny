@@ -1,7 +1,7 @@
 int fact;
 int x0;
 read x0; { input an integer }
-if x0 >= 1 then { don't compute if x0 <= 0 }
+if 1 <= x0 then { don't compute if x0 <= 0 }
   fact := 1;
   repeat
     fact := fact * x0;
