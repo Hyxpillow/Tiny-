@@ -11,7 +11,7 @@
 
 /* states in scanner DFA */
 typedef enum
-   { START,INASSIGN,INCOMMENT,INNUM,INID,DONE }
+   { START,INASSIGN,INCOMMENT,INNUM,INEXP_LT,INEXP_RT,INID,DONE }
    StateType;
 
 /* lexeme of identifier or reserved word */
@@ -102,6 +102,14 @@ TokenType getToken(void)
          { save = FALSE;
            state = INCOMMENT;
          }
+         else if (c == '<')
+         { 
+           state = INEXP_LT;
+         }
+         else if (c == '>')
+         { 
+           state = INEXP_RT;
+         }
          else
          { state = DONE;
            switch (c)
@@ -112,12 +120,7 @@ TokenType getToken(void)
              case '=':
                currentToken = EQ;
                break;
-             case '<':
-               currentToken = LT;
-               break;
-             case '>':
-               currentToken = RT;
-               break;
+             
              case '+':
                currentToken = PLUS;
                break;
@@ -183,6 +186,18 @@ TokenType getToken(void)
            currentToken = ID;
          }
          break;
+       case INEXP_LT:
+         if (c == '='){
+           currentToken = LTE;
+           state = DONE;
+         }
+         break;
+       case INEXP_RT:
+        if (c == '='){
+           currentToken = RTE;
+           state = DONE;
+         }
+        break;
        case DONE:
        default: /* should never happen */
          fprintf(listing,"Scanner Bug: state= %d\n",state);

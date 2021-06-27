@@ -208,7 +208,7 @@ TreeNode * write_stmt(void)
 
 TreeNode * exp(void)
 { TreeNode * t = simple_exp();
-  if ((token==LT)||(token==EQ)||(token==RT)) {
+  if ((token==LT)||(token==EQ)||(token==RT)||(token==LTE)||(token==RTE)) {
     TreeNode * p = newExpNode(OpK);
     if (p!=NULL) {
       p->child[0] = t;
